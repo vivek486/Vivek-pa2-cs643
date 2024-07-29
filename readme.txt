@@ -91,3 +91,30 @@ export PATH=$JAVA_HOME/bin:$PATH
 pip install pyspark==3.1.2   > It should be same version as spark-submit --version
 
 
+Configure Spark for Cluster Mode:
+
+	Edit the spark-env.sh file:
+	nano $SPARK_HOME/conf/spark-env.sh
+	
+		export SPARK_MASTER_HOST='your-master-node-ip'
+		export JAVA_HOME='/usr/lib/jvm/java-11-amazon-corretto'
+		
+Start the master node:
+
+	$SPARK_HOME/sbin/start-master.sh
+
+Start worker nodes on each worker instance:
+
+	$SPARK_HOME/sbin/start-slave.sh spark://your-master-node-ip:7077
+
+
+Start the Worker Node using start-worker.sh:
+On each worker node, run:
+
+	$SPARK_HOME/sbin/start-worker.sh spark://172.31.21.36:7077
+
+Submit the Application to the Cluster:
+
+	$SPARK_HOME/bin/spark-submit --master spark://172.31.21.36:7077 train.py
+
+
